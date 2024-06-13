@@ -1,13 +1,20 @@
+// HomePage.js
 import React, { useEffect, useState } from 'react';
-import './style.scss';
-import { AiOutlinePlus } from 'react-icons/ai';
-import TodoList from '../../TodoApp';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodos, addTodo, updateTodo, deleteTodo } from '../../todosSlice';
+import { AiOutlinePlus } from 'react-icons/ai';
+import TodoList from '../../TodoApp/index.js';
+import './style.scss';
+import {
+  fetchTodos,
+  addTodo,
+  updateTodo,
+  toggleTodoComplete,
+  deleteTodo,
+} from '../../todosSlice.js';
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const todos = useSelector(state => state.todos);
+  const todos = useSelector((state) => state.todos.items);
   const [input, setInput] = useState('');
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState('');
@@ -16,7 +23,7 @@ const HomePage = () => {
     dispatch(fetchTodos());
   }, [dispatch]);
 
-  const createTodo = (e) => {
+  const handleCreateTodo = (e) => {
     e.preventDefault();
     if (input === '') {
       alert('Please enter a valid todo');
@@ -26,36 +33,23 @@ const HomePage = () => {
     setInput('');
   };
 
-  const editTodo = (e) => {
+  const handleEditTodo = (e) => {
     e.preventDefault();
     if (editInput === '') {
       alert('Please enter a valid todo');
       return;
     }
-    dispatch(updateTodo({
-      id: editId,
-      updates: { text: editInput }
-    }));
+    dispatch(updateTodo({ id: editId, text: editInput }));
     setEditId(null);
     setEditInput('');
-  };
-
-  const toggleComplete = (todo) => {
-    dispatch(updateTodo({
-      id: todo.id,
-      updates: { completed: !todo.completed }
-    }));
-  };
-
-  const handleDelete = (id) => {
-    dispatch(deleteTodo(id));
   };
 
   return (
     <div className='gradient-background'>
       <div className='main-container'>
-        <h3 className='heading-main'>Todo App</h3>
-        <form onSubmit={editId ? editTodo : createTodo} className='form-container'>
+        <h3 className='heading-main'> Todo App </h3>
+
+        <form onSubmit={editId ? handleEditTodo : handleCreateTodo} className='form-container'>
           <input
             value={editId ? editInput : input}
             onChange={(e) => editId ? setEditInput(e.target.value) : setInput(e.target.value)}
@@ -65,14 +59,15 @@ const HomePage = () => {
           />
           <button className='add-btn'><AiOutlinePlus size={30} /></button>
         </form>
+
         <ul className='ul-class'>
           {todos.map((todo, index) => (
-            <TodoList 
-              key={index} 
-              todo={todo} 
-              toggleComplete={toggleComplete} 
-              deleteTodo={handleDelete} 
-              setEditId={setEditId} 
+            <TodoList
+              key={index}
+              todo={todo}
+              toggleComplete={() => dispatch(toggleTodoComplete(todo.id))}
+              deleteTodo={() => dispatch(deleteTodo(todo.id))}
+              setEditId={setEditId}
               setEditInput={setEditInput}
             />
           ))}
