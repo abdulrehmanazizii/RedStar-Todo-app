@@ -1,0 +1,61 @@
+.list-items{
+    display: flex;
+    background-color: rgb(223, 221, 221);
+    padding: 20px;
+    margin: 15px 0px;
+}
+
+.list-items-completed{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(97, 97, 97);
+    padding: 20px;
+    margin: 15px 0px;
+}
+
+.row-div{
+    display: flex;
+}
+
+.text-class{
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.text-class-completed{
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: line-through;
+}
+
+.dlt-btn{
+    display: flex;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    padding: 0px;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: medium;
+  }
+  
+  .edit-btn:hover {
+    text-decoration: underline;
+  }
+
+  .btns-div{
+    display: flex;
+    margin-left: auto;
+  }
+
+  .checkbox-cls{
+    cursor: pointer;
+  }
